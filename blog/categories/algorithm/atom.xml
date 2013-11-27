@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Algorithm | Wayne-WH.Chen Blog]]></title>
+  <link href="http://xwaynec.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
+  <link href="http://xwaynec.github.io/"/>
+  <updated>2013-11-28T04:59:32+08:00</updated>
+  <id>http://xwaynec.github.io/</id>
+  <author>
+    <name><![CDATA[xwaynec]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[294 - Divisors]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/23/294-divisors/"/>
+    <updated>2013-11-23T18:02:17+08:00</updated>
+    <id>http://xwaynec.github.io/blog/2013/11/23/294-divisors</id>
+    <content type="html"><![CDATA[<p>``` c</p>
+
+<h1>include&lt;stdio.h></h1>
+
+<h1>include&lt;stdlib.h></h1>
+
+<h1>include&lt;math.h></h1>
+
+<h1>include &lt;memory.h></h1>
+
+<p>/<em>Divisors </em>/
+int main()
+{</p>
+
+<pre><code>int sample,lower,upper;
+int i,j,k,s;
+int m,max,maxnum,divisor,prime;
+char is_prime[31623];
+memset(is_prime,1,31623);
+for(i=2;i&lt;31623;i++){
+    if(is_prime[i]==1){
+        for(k=i*2;k&lt;31623;k=k+i){
+            is_prime[k]=0;
+        }
+    }
+}
+freopen("294.in","r",stdin);
+scanf("%d",&amp;sample);
+for(i=0;i&lt;sample;i++){
+    scanf("%d%d",&amp;lower,&amp;upper);
+    printf("Between %d and %d, ",lower,upper);
+    m = (int)(sqrt(upper)+0.001);
+    max = 1;
+    maxnum = lower;
+    for(s=lower;s&lt;=upper;s++){
+        int tmp = s;
+        divisor = 1;
+        for(j=2;j&lt;=m&amp;&amp;tmp&gt;1;j++){
+            if((is_prime[j]==1)&amp;&amp;(tmp%j==0)){
+                prime = 0;
+                while(tmp%j==0){
+                    prime++;
+                    tmp = tmp / j;
+                }
+                divisor = divisor * (prime + 1);
+            }
+        }
+        if(tmp &gt; 1)
+            divisor = divisor *2;
+        if(divisor &gt; max){
+            max = divisor;
+            maxnum = s;
+        }
+    }
+    printf("%d has a maximum of %d divisors.\n",maxnum,max);
+}
+return 0;
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,58 +9,8 @@
   <meta name="author" content="xwaynec">
 
   
-  <meta name="description" content="1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-# &hellip;">
+  <meta name="description" content="ActiveMerchantAllpay This plugin is an active_merchant patch forAllpay(歐付寶) online payment in Taiwan.
+Now it supports Credit card(信用卡), ATM(虛擬ATM) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -102,6 +52,219 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/">Activemerchant Allpay Plugin for Taiwan Payment</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-28T04:04:25+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ActiveMerchantAllpay</h1>
+
+<p>This plugin is an active_merchant patch forAllpay(歐付寶) online payment in Taiwan.
+Now it supports Credit card(信用卡), ATM(虛擬ATM) and CVS(超商繳費).</p>
+
+<h2>Installation</h2>
+
+<p>Add this line to your application&rsquo;s Gemfile:</p>
+
+<pre><code>gem 'activemerchant'
+gem 'active_merchant_allpay'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle install
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install activemerchant
+$ gem install active_merchant_allpay
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>You can get Payment API and SPEC in <a href="http://www.allpay.com.tw/Service/API">Allpay API</a>.
+Then create an initializer, like initializers/allpay.rb. Add the following configurations depends on your settings.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/environments/development.rb</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">after_initialize</span> <span class="k">do</span>
+</span><span class='line'>  <span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">integration_mode</span> <span class="o">=</span> <span class="ss">:development</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># config/environments/production.rb</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">after_initialize</span> <span class="k">do</span>
+</span><span class='line'>  <span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">integration_mode</span> <span class="o">=</span> <span class="ss">:production</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="ss">Integrations</span><span class="p">:</span><span class="ss">:Allpay</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">allpay</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">development?</span>
+</span><span class='line'>    <span class="n">allpay</span><span class="o">.</span><span class="n">merchant_id</span> <span class="o">=</span> <span class="s1">&#39;5566183&#39;</span>
+</span><span class='line'>    <span class="n">allpay</span><span class="o">.</span><span class="n">hash_key</span>    <span class="o">=</span> <span class="s1">&#39;56cantdieohyeah&#39;</span>
+</span><span class='line'>    <span class="n">allpay</span><span class="o">.</span><span class="n">hash_iv</span>     <span class="o">=</span> <span class="s1">&#39;183club&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">allpay</span><span class="o">.</span><span class="n">merchant_id</span> <span class="o">=</span> <span class="s1">&#39;7788520&#39;</span>
+</span><span class='line'>    <span class="n">allpay</span><span class="o">.</span><span class="n">hash_key</span>    <span class="o">=</span> <span class="s1">&#39;adfas123412343j&#39;</span>
+</span><span class='line'>    <span class="n">allpay</span><span class="o">.</span><span class="n">hash_iv</span>     <span class="o">=</span> <span class="s1">&#39;123ddewqerasdfas&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Example Usage</h2>
+
+<p>Now support three payment methods:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># 1. Credit card</span>
+</span><span class='line'>  <span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="ss">Integrations</span><span class="p">:</span><span class="ss">:Allpay</span><span class="o">::</span><span class="no">PAYMENT_CREDIT_CARD</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 2. ATM</span>
+</span><span class='line'>  <span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="ss">Integrations</span><span class="p">:</span><span class="ss">:Allpay</span><span class="o">::</span><span class="no">PAYMENT_ATM</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 3. CVS (convenience store)</span>
+</span><span class='line'>  <span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="ss">Integrations</span><span class="p">:</span><span class="ss">:Allpay</span><span class="o">::</span><span class="no">PAYMENT_CVS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you’ve configured ActiveMerchantAllpay, you need a checkout form; it looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="sx">% payment_service_for </span> <span class="vi">@order</span><span class="p">,</span>
+</span><span class='line'>                          <span class="vi">@order</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+</span><span class='line'>                          <span class="ss">:service</span> <span class="o">=&gt;</span> <span class="ss">:allpay</span><span class="p">,</span>
+</span><span class='line'>                          <span class="ss">:html</span>    <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">&#39;allpay-atm-form&#39;</span><span class="p">,</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:post</span> <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">service</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx">    &lt;% service.merchant_trade_no @order.payments.last.identifier %&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% service.merchant_trade_date </span><span class="vi">@order</span><span class="o">.</span><span class="n">created_at</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% service.total_amount @order.total.to_i %&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% service.trade_desc </span><span class="vi">@order</span><span class="o">.</span><span class="n">number</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% service.item_name @order.number %&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% service.choose_payment </span><span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="ss">Integrations</span><span class="p">:</span><span class="ss">:Allpay</span><span class="o">::</span><span class="no">PAYMENT_ATM</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% service.client_back_url spree.orders_account_url %&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% service.return_url </span><span class="n">allpay_atm_return_url</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% service.encrypted_data %&gt;</span>
+</span><span class='line'>    <span class="o">&lt;%=</span> <span class="n">submit_tag</span> <span class="s1">&#39;Buy!&#39;</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also need a notification action when Allpay service notifies your server; it looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">notify</span>
+</span><span class='line'>    <span class="n">notification</span> <span class="o">=</span> <span class="ss">ActiveMerchant</span><span class="p">:</span><span class="ss">:Billing</span><span class="o">::</span><span class="ss">Integrations</span><span class="p">:</span><span class="ss">:Allpay</span><span class="o">::</span><span class="no">Notification</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find_by_number</span><span class="p">(</span><span class="n">notification</span><span class="o">.</span><span class="n">merchant_trade_no</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">notification</span><span class="o">.</span><span class="n">status</span> <span class="o">&amp;&amp;</span> <span class="n">notification</span><span class="o">.</span><span class="n">checksum_ok?</span>
+</span><span class='line'>      <span class="c1"># payment is compeleted</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="c1"># payment is failed</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;1|OK&#39;</span><span class="p">,</span> <span class="ss">status</span><span class="p">:</span> <span class="mi">200</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -242,45 +405,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/15/tywin-lannister-quote/">Tywin Lannister Quote</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-15T09:28:00+08:00" pubdate data-updated="true">Jun 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A nice quote by Tywin Lannister taken from <em>A Storm of Sword</em> book.</p>
-
-<blockquote><p>The greatest fools are ofttimes more clever then the men who laugh at them.</p><footer><strong>Tywin Lannister</strong> <cite>A Storm of Swords</cite></footer></blockquote>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -294,11 +418,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/11/23/294-divisors/">294 - Divisors</a>
+        <a href="/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/">activemerchant allpay plugin for Taiwan payment</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/06/15/tywin-lannister-quote/">Tywin Lannister Quote</a>
+        <a href="/blog/2013/11/23/294-divisors/">294 - Divisors</a>
       </li>
     
   </ul>

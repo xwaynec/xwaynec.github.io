@@ -1,12 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://xwaynec.github.io/blog/2013/06/15/tywin-lannister-quote/</loc>
-        <lastmod>2013-11-24T02:58:22+08:00</lastmod>
+        <loc>http://xwaynec.github.io/blog/2013/11/23/294-divisors/</loc>
+        <lastmod>2013-11-25T11:27:31+08:00</lastmod>
     </url>
     <url>
-        <loc>http://xwaynec.github.io/blog/2013/11/23/294-divisors/</loc>
-        <lastmod>2013-11-24T02:58:22+08:00</lastmod>
+        <loc>
+            http://xwaynec.github.io/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/
+        </loc>
+        <lastmod>2013-11-28T04:57:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://xwaynec.github.io/404.html</loc>
@@ -14,15 +16,15 @@
     </url>
     <url>
         <loc>http://xwaynec.github.io/blog/archives/</loc>
-        <lastmod>2013-11-24T02:58:22+08:00</lastmod>
+        <lastmod>2013-11-28T04:57:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://xwaynec.github.io/blog/</loc>
-        <lastmod>2013-11-24T02:58:22+08:00</lastmod>
+        <lastmod>2013-11-28T04:57:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://xwaynec.github.io/</loc>
-        <lastmod>2013-11-24T02:58:22+08:00</lastmod>
+        <lastmod>2013-11-28T04:57:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://xwaynec.github.io/robots.txt</loc>
