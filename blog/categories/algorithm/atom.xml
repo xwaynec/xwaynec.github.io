@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Algorithm | Wayne-WH.Chen Blog]]></title>
   <link href="http://xwaynec.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://xwaynec.github.io/"/>
-  <updated>2013-11-28T04:59:32+08:00</updated>
+  <updated>2013-11-28T05:01:05+08:00</updated>
   <id>http://xwaynec.github.io/</id>
   <author>
     <name><![CDATA[xwaynec]]></name>
@@ -78,6 +78,172 @@ return 0;
 </code></pre>
 
 <p>}
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[242 stamp and envelope]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/22/242-stamp-and-envelope/"/>
+    <updated>2013-11-22T14:03:46+08:00</updated>
+    <id>http://xwaynec.github.io/blog/2013/11/22/242-stamp-and-envelope</id>
+    <content type="html"><![CDATA[<p>``` c</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>define INFINITE 2000</h1>
+
+<p>/<em>Stamps and Envelope Size </em>/
+/<em> global variable </em>/
+int s;
+int n;
+int set[10][15];
+int N[10];
+int f[1010];</p>
+
+<p>int main()
+{
+  int i, j;
+  int k;
+  int temp;</p>
+
+<p>  /<em> freopen(&ldquo;242.in&rdquo;, &ldquo;r&rdquo;, stdin); </em>/</p>
+
+<p>  scanf(&ldquo;%d&rdquo;, &amp;s);
+  while(s!=0){
+  /<em> read input </em>/
+  scanf(&ldquo;%d&rdquo;, &amp;n);
+  for(i=0; i&lt; n; i++){</p>
+
+<pre><code>scanf("%d", &amp;set[i][0]);
+for(j=1; j&lt;= set[i][0]; j++)
+scanf("%d", &amp;set[i][j]);
+</code></pre>
+
+<p>  }
+  /<em> DP for n sets of stamp </em>/
+  for(i=0; i&lt; n; i++){</p>
+
+<pre><code>f[0]=0;
+/* find max coverage */
+for(j=1; ; j++){
+f[j]=INFINITE;
+/* dynamic programing */
+for(k=set[i][0]; k &gt;0; k--){
+  temp=j-set[i][k];
+  if(temp &gt;=0){
+  temp=f[temp]+1;
+  if(temp&lt; f[j])
+    f[j]=temp;
+  }
+}
+/* check terminate or not */
+if(f[j] &gt;s)
+  break;
+}
+N[i]=j-1;
+</code></pre>
+
+<p>  }
+  /<em> print out </em>/
+  for(i=1, temp=0; i&lt; n; i++){</p>
+
+<pre><code>if(N[i] &gt;N[temp])
+temp=i;
+else if(N[i]==N[temp]){
+if(set[i][0]&lt; set[temp][0])
+  temp=i;
+else if(set[i][0]==set[temp][0] &amp;&amp; set[i][set[i][0]]&lt; set[temp][set[temp][0]])
+  temp=i;
+}
+</code></pre>
+
+<p>  }
+  printf(&ldquo;max coverage = %3d :&rdquo;, N[temp]);
+  for(i=1; i&lt;= set[temp][0]; i++)</p>
+
+<pre><code>printf("%3d", set[temp][i]);
+</code></pre>
+
+<p>  printf(&ldquo;\n&rdquo;);</p>
+
+<p>  scanf(&ldquo;%d&rdquo;, &amp;s);
+  }
+  return 0;
+}</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ACM: 166 – Making Change]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/17/acm-166-making-change/"/>
+    <updated>2013-11-17T00:53:00+08:00</updated>
+    <id>http://xwaynec.github.io/blog/2013/11/17/acm-166-making-change</id>
+    <content type="html"><![CDATA[<p>``` c</p>
+
+<h1>include&lt;stdio.h></h1>
+
+<h1>include&lt;string.h></h1>
+
+<h1>define UBOUND 1000000</h1>
+
+<p>/<em>Making Change  </em>/
+int main(){
+  int unlimited[105];
+  int coins[6]={1,2,4,10,20,40};
+  int i,j;
+  int limited[6][145];
+  int used[145];
+  int p1,p2,price;
+  unlimited[0]=0;
+  for(i=1;i&lt;=100;i++)</p>
+
+<pre><code>unlimited[i]=UBOUND;
+</code></pre>
+
+<p>  for(i=1;i&lt;=100;i++)</p>
+
+<pre><code>for(j=0;j&lt;6;j++){
+  if(coins[j]&gt;i) continue;
+  if(unlimited[i-coins[j]]+1&lt;unlimited[i])
+    unlimited[i]=unlimited[i-coins[j]]+1;
+}
+</code></pre>
+
+<p>  for(;;){</p>
+
+<pre><code>int total=0,min,minj,max;
+for(i=0;i&lt;=140;i++) used[i]=0;
+for(i=0;i&lt;6;i++) scanf("%d",&amp;limited[i][0]),total+=limited[i][0]*coins[i];
+if(total==0) break;
+scanf("%d%*c%d",&amp;p1,&amp;p2);
+price=p1*20+p2/5;
+max=total&gt;price+40?price+40:total;
+for(i=1;i&lt;=max;i++){
+  min=UBOUND;
+  for(j=0;j&lt;6;j++){
+    if(coins[j]&gt;i||limited[j][i-coins[j]]==0) continue;
+    if(used[i-coins[j]]+1&lt;min) min=used[i-coins[j]]+1,minj=j;
+  }
+  used[i]=min;
+  if(min&lt;UBOUND){
+    for(j=0;j&lt;6;j++)
+      limited[j][i]=limited[j][i-coins[minj]];
+    limited[minj][i]--;
+  }
+}
+min=UBOUND;
+for(i=price;i&lt;=max;i++)
+  if(used[i]+unlimited[i-price]&lt;min)
+    min=used[i]+unlimited[i-price];
+printf("%3d\n",min);
+</code></pre>
+
+<p>  }
+  return 0;
+}
 ```</p>
 ]]></content>
   </entry>

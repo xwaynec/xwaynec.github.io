@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | Wayne-WH.Chen Blog]]></title>
+  <link href="http://xwaynec.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://xwaynec.github.io/"/>
+  <updated>2013-11-28T05:01:05+08:00</updated>
+  <id>http://xwaynec.github.io/</id>
+  <author>
+    <name><![CDATA[xwaynec]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[activemerchant allpay plugin for Taiwan payment]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/"/>
+    <updated>2013-11-28T04:04:25+08:00</updated>
+    <id>http://xwaynec.github.io/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment</id>
+    <content type="html"><![CDATA[<h1>ActiveMerchantAllpay</h1>
+
+<p>This plugin is an active_merchant patch forAllpay(歐付寶) online payment in Taiwan.
+Now it supports Credit card(信用卡), ATM(虛擬ATM) and CVS(超商繳費).</p>
+
+<h2>Installation</h2>
+
+<p>Add this line to your application&rsquo;s Gemfile:</p>
+
+<pre><code>gem 'activemerchant'
+gem 'active_merchant_allpay'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle install
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install activemerchant
+$ gem install active_merchant_allpay
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>You can get Payment API and SPEC in <a href="http://www.allpay.com.tw/Service/API">Allpay API</a>.
+Then create an initializer, like initializers/allpay.rb. Add the following configurations depends on your settings.</p>
+
+<p>``` ruby</p>
+
+<h1>config/environments/development.rb</h1>
+
+<p>config.after_initialize do
+  ActiveMerchant::Billing::Base.integration_mode = :development
+end</p>
+
+<h1>config/environments/production.rb</h1>
+
+<p>config.after_initialize do
+  ActiveMerchant::Billing::Base.integration_mode = :production
+end</p>
+
+<p>```</p>
+
+<p>``` ruby
+ActiveMerchant::Billing::Integrations::Allpay.setup do |allpay|
+  if Rails.env.development?</p>
+
+<pre><code>allpay.merchant_id = '5566183'
+allpay.hash_key    = '56cantdieohyeah'
+allpay.hash_iv     = '183club'
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>allpay.merchant_id = '7788520'
+allpay.hash_key    = 'adfas123412343j'
+allpay.hash_iv     = '123ddewqerasdfas'
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h2>Example Usage</h2>
+
+<p>Now support three payment methods:</p>
+
+<p>``` ruby
+  # 1. Credit card
+  ActiveMerchant::Billing::Integrations::Allpay::PAYMENT_CREDIT_CARD</p>
+
+<p>  # 2. ATM
+  ActiveMerchant::Billing::Integrations::Allpay::PAYMENT_ATM</p>
+
+<p>  # 3. CVS (convenience store)
+  ActiveMerchant::Billing::Integrations::Allpay::PAYMENT_CVS
+```</p>
+
+<p>Once you’ve configured ActiveMerchantAllpay, you need a checkout form; it looks like:</p>
+
+<p>``` ruby
+  &lt;% payment_service_for  @order,</p>
+
+<pre><code>                      @order.user.email,
+                      :service =&gt; :allpay,
+                      :html    =&gt; { :id =&gt; 'allpay-atm-form', :method =&gt; :post } do |service| %&gt;
+
+&lt;% service.merchant_trade_no @order.payments.last.identifier %&gt;
+&lt;% service.merchant_trade_date @order.created_at %&gt;
+&lt;% service.total_amount @order.total.to_i %&gt;
+&lt;% service.trade_desc @order.number %&gt;
+&lt;% service.item_name @order.number %&gt;
+&lt;% service.choose_payment ActiveMerchant::Billing::Integrations::Allpay::PAYMENT_ATM %&gt;
+&lt;% service.client_back_url spree.orders_account_url %&gt;
+&lt;% service.return_url allpay_atm_return_url %&gt;
+&lt;% service.encrypted_data %&gt;
+&lt;%= submit_tag 'Buy!' %&gt;
+</code></pre>
+
+<p>  &lt;% end %>
+```</p>
+
+<p>Also need a notification action when Allpay service notifies your server; it looks like:</p>
+
+<p>``` ruby
+  def notify</p>
+
+<pre><code>notification = ActiveMerchant::Billing::Integrations::Allpay::Notification.new(params)
+
+order = Order.find_by_number(notification.merchant_trade_no)
+
+if notification.status &amp;&amp; notification.checksum_ok?
+  # payment is compeleted
+else
+  # payment is failed
+end
+
+render text: '1|OK', status: 200
+</code></pre>
+
+<p>  end
+```</p>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
