@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ActiveMerchant | Wayne-WH.Chen Blog]]></title>
   <link href="http://xwaynec.github.io/blog/categories/activemerchant/atom.xml" rel="self"/>
   <link href="http://xwaynec.github.io/"/>
-  <updated>2013-11-28T05:01:05+08:00</updated>
+  <updated>2013-11-30T03:02:03+08:00</updated>
   <id>http://xwaynec.github.io/</id>
   <author>
     <name><![CDATA[xwaynec]]></name>
@@ -28,7 +28,7 @@ Now it supports Credit card(信用卡), ATM(虛擬ATM) and CVS(超商繳費).</p
 <p>Add this line to your application&rsquo;s Gemfile:</p>
 
 <pre><code>gem 'activemerchant'
-gem 'active_merchant_allpay'
+gem 'active_merchant_allpay', '&gt;=0.1.0'
 </code></pre>
 
 <p>And then execute:</p>
@@ -45,7 +45,7 @@ $ gem install active_merchant_allpay
 <h2>Usage</h2>
 
 <p>You can get Payment API and SPEC in <a href="http://www.allpay.com.tw/Service/API">Allpay API</a>.
-Then create an initializer, like initializers/allpay.rb. Add the following configurations depends on your settings.</p>
+First, configure the integration mode depends on what enviroment you want to use.</p>
 
 <p>``` ruby</p>
 
@@ -62,6 +62,8 @@ end</p>
 end</p>
 
 <p>```</p>
+
+<p>Then create an initializer, like initializers/allpay.rb. Add the following configurations depends on your settings.</p>
 
 <p>``` ruby
 ActiveMerchant::Billing::Integrations::Allpay.setup do |allpay|
