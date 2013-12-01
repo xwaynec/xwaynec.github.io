@@ -4,7 +4,7 @@
   <title><![CDATA[Wayne-WH.Chen Blog]]></title>
   <link href="http://xwaynec.github.io/atom.xml" rel="self"/>
   <link href="http://xwaynec.github.io/"/>
-  <updated>2013-12-01T22:12:34+08:00</updated>
+  <updated>2013-12-02T01:24:15+08:00</updated>
   <id>http://xwaynec.github.io/</id>
   <author>
     <name><![CDATA[xwaynec]]></name>
@@ -312,10 +312,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[302 John's trip]]></title>
-    <link href="http://xwaynec.github.io/blog/2013/11/30/302-johns-trip/"/>
+    <title type="html"><![CDATA[ACM: 302 - John's trip]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/30/acm-302-johns-trip/"/>
     <updated>2013-11-30T02:59:15+08:00</updated>
-    <id>http://xwaynec.github.io/blog/2013/11/30/302-johns-trip</id>
+    <id>http://xwaynec.github.io/blog/2013/11/30/acm-302-johns-trip</id>
     <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -867,10 +867,10 @@ First, configure the integration mode depends on what enviroment you want to use
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[294 - Divisors]]></title>
-    <link href="http://xwaynec.github.io/blog/2013/11/23/294-divisors/"/>
+    <title type="html"><![CDATA[ACM: 294 - Divisors]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/23/acm-294-divisors/"/>
     <updated>2013-11-23T18:02:17+08:00</updated>
-    <id>http://xwaynec.github.io/blog/2013/11/23/294-divisors</id>
+    <id>http://xwaynec.github.io/blog/2013/11/23/acm-294-divisors</id>
     <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -979,10 +979,10 @@ First, configure the integration mode depends on what enviroment you want to use
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[242 stamp and envelope]]></title>
-    <link href="http://xwaynec.github.io/blog/2013/11/22/242-stamp-and-envelope/"/>
+    <title type="html"><![CDATA[ACM: 242 - stamp and envelope]]></title>
+    <link href="http://xwaynec.github.io/blog/2013/11/22/acm-242-stamp-and-envelope/"/>
     <updated>2013-11-22T14:03:46+08:00</updated>
-    <id>http://xwaynec.github.io/blog/2013/11/22/242-stamp-and-envelope</id>
+    <id>http://xwaynec.github.io/blog/2013/11/22/acm-242-stamp-and-envelope</id>
     <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
