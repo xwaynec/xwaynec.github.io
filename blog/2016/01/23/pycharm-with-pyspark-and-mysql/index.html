@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PyCharm with pyspark and mysql - Wayne-WH.Chen Blog</title>
+  <meta name="author" content="xwaynec">
+
+  
+  <meta name="description" content="最近需要來研究一下 Spark ，看了一下API的部分有 Java, Scala, Python, R，個人是略懂 Python，只好來踩雷一下。公司的專案是 Rails + MySql，若要做資料分析，目前暫時想拿來嘗試的方案是透過 Spark 去取得 MySql 資料。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Wayne-WH.Chen Blog" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20847150-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">xwaynec</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">Wayne-WH.Chen Blog</a></h1>
+  
+    <h2>big thing has small beginning.</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:xwaynec.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">PyCharm With Pyspark and Mysql</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-23T21:19:55+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近需要來研究一下 Spark ，看了一下API的部分有 Java, Scala, Python, R，個人是略懂 Python，只好來踩雷一下。公司的專案是 Rails + MySql，若要做資料分析，目前暫時想拿來嘗試的方案是透過 Spark 去取得 MySql 資料。
+按照官網的介紹把整包抓下來之後，進入目錄裡面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/pyspark
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打完指令，Python 的 shell 就會出現。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Welcome to
+</span><span class='line'>      ____              __
+</span><span class='line'>     / __/__  ___ _____/ /__
+</span><span class='line'>    _<span class="se">\ \/</span> _ <span class="se">\/</span> _ <span class="sb">`</span>/ __/  <span class="err">&#39;</span>_/
+</span><span class='line'>   /__ / .__/<span class="se">\_</span>,_/_/ /_/<span class="se">\_\ </span>  version 1.6.0
+</span><span class='line'>      /_/
+</span><span class='line'>
+</span><span class='line'>Using Python version 2.7.11 <span class="o">(</span>default, Dec  5 2015 14:44:53<span class="o">)</span>
+</span><span class='line'>SparkContext available as sc, HiveContext available as sqlContext.
+</span><span class='line'>&gt;&gt;&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是其實卡雷比較久的是，我比較想要用 IDE 去寫code&hellip;雖然說用 ipython 也可以，不過有些函式庫可以提示比較high&hellip;。</p>
+
+<p>以下為踩雷後的紀錄流程，首先你要先有一台 macbook&hellip;</p>
+
+<h3>1. 需要先去 MySql 官網下載</h3>
+
+<p><a href="https://dev.mysql.com/downloads/connector/j/3.1.html">JDBC driver</a></p>
+
+<h3>2. 打開 PyCharm &ndash;> Preference &ndash;> Project interpreters</h3>
+
+<p>選擇 <code>Show paths for the selected interpreters</code>，點選 <code>+</code> 加入這邊兩個 lib path。
+  * <code>spark-1.6.0 path</code>/python
+  * <code>spark-1.6.0 path</code>/python/lib/py4j-0.9-src.zip</p>
+
+<p>接下來在 python file import pyspark 相關的lib就不會有錯。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SQLContext</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3. 在 Spark-1.6 Project 當中</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mv conf/spark-defaults.conf.template conf/spark-defaults.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來加入兩組設定</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>spark.executor.extraClassPath   &lt;Project Path&gt;/mysql-connector-java-5.1.38-bin.jar
+</span><span class='line'>spark.driver.extraClassPath   &lt;Project Path&gt;/mysql-connector-java-5.1.38-bin.jar
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. 接下來在 PyCharm &ndash;> Run &ndash;> Edit Configuration，Environment variables 加入以下:</h3>
+
+<ul>
+<li>SPARK_HOME  <code>spark-1.6.0 path</code></li>
+<li>PYTHONPATH  $SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH</li>
+</ul>
+
+
+<h3>5. 測試一下是否可以連線 MySql</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">()</span>
+</span><span class='line'><span class="n">sqlctx</span> <span class="o">=</span> <span class="n">SQLContext</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="n">sqlctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+</span><span class='line'>  <span class="n">source</span><span class="o">=</span><span class="s">&#39;jdbc&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">driver</span><span class="o">=</span><span class="s">&#39;com.mysql.jdbc.Driver&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">url</span><span class="o">=</span><span class="s">&#39;jdbc:mysql://localhost/database_name?user={qwert}&amp;password={qwert}&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">dbtable</span><span class="o">=</span><span class="s">&#39;table_name&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">df</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">xwaynec</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-23T21:19:55+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/pyspark/'>Pyspark</a>, <a class='category' href='/blog/categories/python/'>Python</a>, <a class='category' href='/blog/categories/spark/'>Spark</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql/" data-via="waynec" data-counturl="http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2013/12/27/baltic-sea-3-countries-poland-krakow-1/" title="Previous Post: Baltic Sea 3 Countries - Poland Kraków (1)">&laquo; Baltic Sea 3 Countries - Poland Kraków (1)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/23/pycharm-with-pyspark-and-mysql/">PyCharm With Pyspark and Mysql</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/27/baltic-sea-3-countries-poland-krakow-1/">Baltic Sea 3 Countries - Poland Kraków (1)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/26/baltic-sea-3-countries-poland-zakopane/">Baltic Sea 3 Countries - Poland Zakopane</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/07/baltic-sea-3-countries-poland-warsaw-2/">Baltic Sea 3 Countries - Poland Warsaw (2)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/06/acm-305-Joseph/">ACM:305 - Joseph</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/02/baltic-sea-3-countries-poland-warsaw-1/">Baltic Sea 3 Countries - Poland Warsaw (1)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/01/alaska-aurora-in-fairbanks-and-polarbear-in-barrow/">Alaska - Aurora in Fairbanks &amp; Polarbear in Barrow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/30/acm-302-johns-trip/">ACM: 302 - John's Trip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/">Activemerchant Allpay Plugin for Taiwan Payment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/23/acm-294-divisors/">ACM: 294 - Divisors</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - xwaynec -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'xwaynec';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql/';
+        var disqus_url = 'http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

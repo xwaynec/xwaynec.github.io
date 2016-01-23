@@ -4,7 +4,7 @@
   <title><![CDATA[Wayne-WH.Chen Blog]]></title>
   <link href="http://xwaynec.github.io/atom.xml" rel="self"/>
   <link href="http://xwaynec.github.io/"/>
-  <updated>2013-12-27T16:13:38+08:00</updated>
+  <updated>2016-01-23T22:51:13+08:00</updated>
   <id>http://xwaynec.github.io/</id>
   <author>
     <name><![CDATA[xwaynec]]></name>
@@ -12,6 +12,114 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PyCharm with pyspark and mysql]]></title>
+    <link href="http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql/"/>
+    <updated>2016-01-23T21:19:55+08:00</updated>
+    <id>http://xwaynec.github.io/blog/2016/01/23/pycharm-with-pyspark-and-mysql</id>
+    <content type="html"><![CDATA[<p>最近需要來研究一下 Spark ，看了一下API的部分有 Java, Scala, Python, R，個人是略懂 Python，只好來踩雷一下。公司的專案是 Rails + MySql，若要做資料分析，目前暫時想拿來嘗試的方案是透過 Spark 去取得 MySql 資料。
+按照官網的介紹把整包抓下來之後，進入目錄裡面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/pyspark
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打完指令，Python 的 shell 就會出現。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Welcome to
+</span><span class='line'>      ____              __
+</span><span class='line'>     / __/__  ___ _____/ /__
+</span><span class='line'>    _<span class="se">\ \/</span> _ <span class="se">\/</span> _ <span class="sb">`</span>/ __/  <span class="err">&#39;</span>_/
+</span><span class='line'>   /__ / .__/<span class="se">\_</span>,_/_/ /_/<span class="se">\_\ </span>  version 1.6.0
+</span><span class='line'>      /_/
+</span><span class='line'>
+</span><span class='line'>Using Python version 2.7.11 <span class="o">(</span>default, Dec  5 2015 14:44:53<span class="o">)</span>
+</span><span class='line'>SparkContext available as sc, HiveContext available as sqlContext.
+</span><span class='line'>&gt;&gt;&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是其實卡雷比較久的是，我比較想要用 IDE 去寫code&hellip;雖然說用 ipython 也可以，不過有些函式庫可以提示比較high&hellip;。</p>
+
+<p>以下為踩雷後的紀錄流程，首先你要先有一台 macbook&hellip;</p>
+
+<h3>1. 需要先去 MySql 官網下載</h3>
+
+<p><a href="https://dev.mysql.com/downloads/connector/j/3.1.html">JDBC driver</a></p>
+
+<h3>2. 打開 PyCharm &ndash;> Preference &ndash;> Project interpreters</h3>
+
+<p>選擇 <code>Show paths for the selected interpreters</code>，點選 <code>+</code> 加入這邊兩個 lib path。
+  * <code>spark-1.6.0 path</code>/python
+  * <code>spark-1.6.0 path</code>/python/lib/py4j-0.9-src.zip</p>
+
+<p>接下來在 python file import pyspark 相關的lib就不會有錯。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SQLContext</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3. 在 Spark-1.6 Project 當中</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mv conf/spark-defaults.conf.template conf/spark-defaults.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來加入兩組設定</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>spark.executor.extraClassPath   &lt;Project Path&gt;/mysql-connector-java-5.1.38-bin.jar
+</span><span class='line'>spark.driver.extraClassPath   &lt;Project Path&gt;/mysql-connector-java-5.1.38-bin.jar
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. 接下來在 PyCharm &ndash;> Run &ndash;> Edit Configuration，Environment variables 加入以下:</h3>
+
+<ul>
+<li>SPARK_HOME  <code>spark-1.6.0 path</code></li>
+<li>PYTHONPATH  $SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH</li>
+</ul>
+
+
+<h3>5. 測試一下是否可以連線 MySql</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">()</span>
+</span><span class='line'><span class="n">sqlctx</span> <span class="o">=</span> <span class="n">SQLContext</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="n">sqlctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+</span><span class='line'>  <span class="n">source</span><span class="o">=</span><span class="s">&#39;jdbc&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">driver</span><span class="o">=</span><span class="s">&#39;com.mysql.jdbc.Driver&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">url</span><span class="o">=</span><span class="s">&#39;jdbc:mysql://localhost/database_name?user={qwert}&amp;password={qwert}&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">dbtable</span><span class="o">=</span><span class="s">&#39;table_name&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">df</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Baltic Sea 3 Countries - Poland Kraków (1)]]></title>

@@ -9,7 +9,7 @@
   <meta name="author" content="xwaynec">
 
   
-  <meta name="description" content="Kraków 真的是一堆歷史文物古蹟遺址的城市，同時也是個悲哀肅殺的地方。Kraków 是小波蘭省的首府，波蘭的舊都。在歷史上曾有Kraków自由市。位於維斯杜拉河畔，Kraków-Częstochowa 鄰近大城市。Kraków的中央集市廣場十分著名。是波蘭最重要的旅遊都市。 &hellip;">
+  <meta name="description" content="最近需要來研究一下 Spark ，看了一下API的部分有 Java, Scala, Python, R，個人是略懂 Python，只好來踩雷一下。公司的專案是 Rails + MySql，若要做資料分析，目前暫時想拿來嘗試的方案是透過 Spark 去取得 MySql 資料。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +83,141 @@
   <div id="main">
     <div id="content">
       
+
+
+    <article class="post">
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2016/01/23/pycharm-with-pyspark-and-mysql/">PyCharm With Pyspark and Mysql</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-23T21:19:55+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近需要來研究一下 Spark ，看了一下API的部分有 Java, Scala, Python, R，個人是略懂 Python，只好來踩雷一下。公司的專案是 Rails + MySql，若要做資料分析，目前暫時想拿來嘗試的方案是透過 Spark 去取得 MySql 資料。
+按照官網的介紹把整包抓下來之後，進入目錄裡面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/pyspark
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打完指令，Python 的 shell 就會出現。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Welcome to
+</span><span class='line'>      ____              __
+</span><span class='line'>     / __/__  ___ _____/ /__
+</span><span class='line'>    _<span class="se">\ \/</span> _ <span class="se">\/</span> _ <span class="sb">`</span>/ __/  <span class="err">&#39;</span>_/
+</span><span class='line'>   /__ / .__/<span class="se">\_</span>,_/_/ /_/<span class="se">\_\ </span>  version 1.6.0
+</span><span class='line'>      /_/
+</span><span class='line'>
+</span><span class='line'>Using Python version 2.7.11 <span class="o">(</span>default, Dec  5 2015 14:44:53<span class="o">)</span>
+</span><span class='line'>SparkContext available as sc, HiveContext available as sqlContext.
+</span><span class='line'>&gt;&gt;&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是其實卡雷比較久的是，我比較想要用 IDE 去寫code&hellip;雖然說用 ipython 也可以，不過有些函式庫可以提示比較high&hellip;。</p>
+
+<p>以下為踩雷後的紀錄流程，首先你要先有一台 macbook&hellip;</p>
+
+<h3>1. 需要先去 MySql 官網下載</h3>
+
+<p><a href="https://dev.mysql.com/downloads/connector/j/3.1.html">JDBC driver</a></p>
+
+<h3>2. 打開 PyCharm &ndash;> Preference &ndash;> Project interpreters</h3>
+
+<p>選擇 <code>Show paths for the selected interpreters</code>，點選 <code>+</code> 加入這邊兩個 lib path。
+  * <code>spark-1.6.0 path</code>/python
+  * <code>spark-1.6.0 path</code>/python/lib/py4j-0.9-src.zip</p>
+
+<p>接下來在 python file import pyspark 相關的lib就不會有錯。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SQLContext</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3. 在 Spark-1.6 Project 當中</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mv conf/spark-defaults.conf.template conf/spark-defaults.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來加入兩組設定</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>spark.executor.extraClassPath   &lt;Project Path&gt;/mysql-connector-java-5.1.38-bin.jar
+</span><span class='line'>spark.driver.extraClassPath   &lt;Project Path&gt;/mysql-connector-java-5.1.38-bin.jar
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. 接下來在 PyCharm &ndash;> Run &ndash;> Edit Configuration，Environment variables 加入以下:</h3>
+
+<ul>
+<li>SPARK_HOME  <code>spark-1.6.0 path</code></li>
+<li>PYTHONPATH  $SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH</li>
+</ul>
+
+
+<h3>5. 測試一下是否可以連線 MySql</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">()</span>
+</span><span class='line'><span class="n">sqlctx</span> <span class="o">=</span> <span class="n">SQLContext</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="n">sqlctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+</span><span class='line'>  <span class="n">source</span><span class="o">=</span><span class="s">&#39;jdbc&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">driver</span><span class="o">=</span><span class="s">&#39;com.mysql.jdbc.Driver&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">url</span><span class="o">=</span><span class="s">&#39;jdbc:mysql://localhost/database_name?user={qwert}&amp;password={qwert}&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">dbtable</span><span class="o">=</span><span class="s">&#39;table_name&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">df</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+</article>
 
 
     <article class="post">
@@ -1108,181 +1243,6 @@ $ gem install active_merchant_allpay
 
 </article>
 
-
-    <article class="post">
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2013/11/22/acm-242-stamp-and-envelope/">ACM: 242 - Stamp and Envelope</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-22T14:03:46+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#define INFINITE 2000</span>
-</span><span class='line'><span class="cm">/*Stamps and Envelope Size */</span>
-</span><span class='line'><span class="cm">/* global variable */</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">s</span><span class="p">;</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">set</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">15</span><span class="p">];</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">N</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="mi">1010</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">temp</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="cm">/* freopen(&quot;242.in&quot;, &quot;r&quot;, stdin); */</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="n">s</span><span class="o">!=</span><span class="mi">0</span><span class="p">){</span>
-</span><span class='line'>  <span class="cm">/* read input */</span>
-</span><span class='line'>  <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-</span><span class='line'>    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
-</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;=</span> <span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="cm">/* DP for n sets of stamp */</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-</span><span class='line'>    <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>    <span class="cm">/* find max coverage */</span>
-</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
-</span><span class='line'>    <span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">INFINITE</span><span class="p">;</span>
-</span><span class='line'>    <span class="cm">/* dynamic programing */</span>
-</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="n">k</span> <span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">--</span><span class="p">){</span>
-</span><span class='line'>      <span class="n">temp</span><span class="o">=</span><span class="n">j</span><span class="o">-</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">temp</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">){</span>
-</span><span class='line'>      <span class="n">temp</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">temp</span><span class="o">&lt;</span> <span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-</span><span class='line'>        <span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">temp</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="cm">/* check terminate or not */</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span><span class="n">s</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="cm">/* print out */</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span><span class="n">N</span><span class="p">[</span><span class="n">temp</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">temp</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">N</span><span class="p">[</span><span class="n">temp</span><span class="p">]){</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span> <span class="n">set</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-</span><span class='line'>      <span class="n">temp</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">set</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">set</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">&lt;</span> <span class="n">set</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="n">set</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
-</span><span class='line'>      <span class="n">temp</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;max coverage = %3d :&quot;</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="n">temp</span><span class="p">]);</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span> <span class="n">set</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%3d&quot;</span><span class="p">,</span> <span class="n">set</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
-</span><span class='line'>  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-</article>
-
 <nav id="pagenavi">
     
     
@@ -1293,7 +1253,7 @@ $ gem install active_merchant_allpay
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - xwaynec -
+  Copyright &copy; 2016 - xwaynec -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
