@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Google Analytics | Wayne-WH.Chen Blog]]></title>
+  <link href="http://xwaynec.github.io/blog/categories/google-analytics/atom.xml" rel="self"/>
+  <link href="http://xwaynec.github.io/"/>
+  <updated>2016-02-12T10:35:09+08:00</updated>
+  <id>http://xwaynec.github.io/</id>
+  <author>
+    <name><![CDATA[xwaynec]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[prepare Google Analytics Individual Qualification]]></title>
+    <link href="http://xwaynec.github.io/blog/2016/02/11/prepare-google-analytics-individual-qualification/"/>
+    <updated>2016-02-11T17:07:38+08:00</updated>
+    <id>http://xwaynec.github.io/blog/2016/02/11/prepare-google-analytics-individual-qualification</id>
+    <content type="html"><![CDATA[<p>過年前的願望就是過年期間把GAIQ考一下，大致上只要準備這三個教材看完就可以了</p>
+
+<ul>
+<li><p><a href="https://dl.dropboxusercontent.com/u/19225268/Google-Analytics-Reference-Guide.pdf">Google Analytics Reference Guide</a></p></li>
+<li><p><a href="http://www.yocazo.com/google-analytics-test-answers">GAIQ 考古題1</a></p></li>
+<li><p><a href="http://www.crunchdigital.in/p/google-analytics.html">GAIQ 考古題2</a></p></li>
+</ul>
+
+
+<h3>以下為個人筆記，僅供參考</h3>
+
+<p>Macro conversion &ndash;> Create a goal for completed purchases</p>
+
+<p>Micro conversion &ndash;> User footprint</p>
+
+<p>(Revenue &ndash; Cost) / Cost</p>
+
+<p>Collection &ndash;> Configuration &ndash;> Processing &ndash;> Reporting</p>
+
+<p>User level > Session level > Hit level</p>
+
+<p>Campaign, Medium, Source, Term, Content</p>
+
+<p>Channel &ndash;> direct/organic search/Referral/Email/Paid search/Other advertising/Social/Display</p>
+
+<p>Define measurement plan/Document technical infrastructure/Create implementation plan/Implementation/Maintain &amp; Refine</p>
+]]></content>
+  </entry>
+  
+</feed>
