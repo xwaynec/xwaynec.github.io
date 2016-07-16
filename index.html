@@ -9,9 +9,7 @@
   <meta name="author" content="xwaynec">
 
   
-  <meta name="description" content="過年前的願望就是過年期間把GAIQ考一下，大致上只要準備這三個教材看完就可以了。 p.s. 楊耀文證書一下 Google Analytics Reference Guide
-GAIQ 考古題1
-GAIQ 考古題2 以下為個人筆記，僅供參考 Macro conversion &ndash;> &hellip;">
+  <meta name="description" content="在國內有做線上金流的網站，大部分會有以下步驟，順序可能不太一樣 #### 1. 在網站加入購物車 #### 2. 進入結帳流程 #### 3. 填寫表單送出 #### 4. 跳轉信用卡刷卡/超商取貨地圖選擇 #### 5. 完成購物流程 在 GA 追蹤電子商務的時候，會看到交易金額都累積在 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +85,67 @@ GAIQ 考古題2 以下為個人筆記，僅供參考 Macro conversion &ndash;> &
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2016/04/17/google-analytics-3rd-domain-filter/">[Google Analytics]信用卡/超商取貨網址過濾</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-17T02:44:06+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在國內有做線上金流的網站，大部分會有以下步驟，順序可能不太一樣</p>
+
+<p>  #### 1. 在網站加入購物車</p>
+
+<p>  ####   2. 進入結帳流程</p>
+
+<p>  ####   3. 填寫表單送出</p>
+
+<p>  ####   4. 跳轉信用卡刷卡/超商取貨地圖選擇</p>
+
+<p>  ####   5. 完成購物流程</p>
+
+<p>在 GA 追蹤電子商務的時候，會看到交易金額都累積在</p>
+
+<p>  ####   * emap.shopping7.com.tw
+  ####   * emap.pcsc.com.tw
+  ####   * *.allpay.com.tw</p>
+
+<p>，這時候你想看渠道資料也無法，因為轉換都掛在這些第三方頁面，從報表上面就是 Landing Page 為超商地圖，交易金額為 33 萬。XD</p>
+
+<p>解法就是透過 <strong>多網域追蹤</strong> ，把需要排除網域都加入 Google Analytics 管理主頁的參照連結網址排除清單。</p>
+
+<p>打開你的 Google Analytics &ndash;> Admin &ndash;> Tracking Info &ndash;> Referral Exclusion List
+把要過濾的網址新增進去就可以了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1126,73 +1185,6 @@ GAIQ 考古題2 以下為個人筆記，僅供參考 Macro conversion &ndash;> &
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/">Activemerchant Allpay Plugin for Taiwan Payment</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-28T04:04:25+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ActiveMerchantAllpay</h1>
-
-<p>This plugin is an active_merchant patch forAllpay(歐付寶) online payment in Taiwan.
-Now it supports Credit card(信用卡), ATM(虛擬ATM) and CVS(超商繳費).</p>
-
-<h2>Installation</h2>
-
-<p>Add this line to your application&rsquo;s Gemfile:</p>
-
-<pre><code>gem 'activemerchant'
-gem 'active_merchant_allpay', '&gt;=0.1.0'
-</code></pre>
-
-<p>And then execute:</p>
-
-<pre><code>$ bundle install
-</code></pre>
-
-<p>Or install it yourself as:</p>
-
-<pre><code>$ gem install activemerchant
-$ gem install active_merchant_allpay
-</code></pre>
-
-<h2>Usage</h2>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1206,6 +1198,10 @@ $ gem install active_merchant_allpay
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/04/17/google-analytics-3rd-domain-filter/">[Google Analytics]信用卡/超商取貨網址過濾</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/02/11/prepare-google-analytics-individual-qualification/">Prepare Google Analytics Individual Qualification</a>
@@ -1241,10 +1237,6 @@ $ gem install active_merchant_allpay
     
       <li class="post">
         <a href="/blog/2013/11/30/acm-302-johns-trip/">ACM: 302 - John&#8217;s Trip</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/28/activemerchant-allpay-plugin-for-taiwan-payment/">Activemerchant Allpay Plugin for Taiwan Payment</a>
       </li>
     
   </ul>
