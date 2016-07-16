@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Google Analytics | Wayne-WH.Chen Blog]]></title>
   <link href="http://xwaynec.github.io/blog/categories/google-analytics/atom.xml" rel="self"/>
   <link href="http://xwaynec.github.io/"/>
-  <updated>2016-07-16T18:24:52+08:00</updated>
+  <updated>2016-07-16T18:47:58+08:00</updated>
   <id>http://xwaynec.github.io/</id>
   <author>
     <name><![CDATA[xwaynec]]></name>
@@ -20,21 +20,23 @@
     <id>http://xwaynec.github.io/blog/2016/04/17/google-analytics-3rd-domain-filter</id>
     <content type="html"><![CDATA[<p>在國內有做線上金流的網站，大部分會有以下步驟，順序可能不太一樣</p>
 
-<p>  #### 1. 在網站加入購物車</p>
+<p>&nbsp;&nbsp;1. 在網站加入購物車</p>
 
-<p>  ####   2. 進入結帳流程</p>
+<p>&nbsp;&nbsp;2. 進入結帳流程</p>
 
-<p>  ####   3. 填寫表單送出</p>
+<p>&nbsp;&nbsp;3. 填寫表單送出</p>
 
-<p>  ####   4. 跳轉信用卡刷卡/超商取貨地圖選擇</p>
+<p>&nbsp;&nbsp;4. 跳轉信用卡刷卡/超商取貨地圖選擇</p>
 
-<p>  ####   5. 完成購物流程</p>
+<p>&nbsp;&nbsp;5. 完成購物流程</p>
 
 <p>在 GA 追蹤電子商務的時候，會看到交易金額都累積在</p>
 
-<p>  ####   * emap.shopping7.com.tw
-  ####   * emap.pcsc.com.tw
-  ####   * *.allpay.com.tw</p>
+<p>&nbsp;&nbsp;* emap.shopping7.com.tw</p>
+
+<p>&nbsp;&nbsp;* emap.pcsc.com.tw</p>
+
+<p>&nbsp;&nbsp;* allpay.com.tw</p>
 
 <p>，這時候你想看渠道資料也無法，因為轉換都掛在這些第三方頁面，從報表上面就是 Landing Page 為超商地圖，交易金額為 33 萬。XD</p>
 
